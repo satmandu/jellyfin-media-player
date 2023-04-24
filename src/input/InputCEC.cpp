@@ -1,5 +1,6 @@
 
 #include <QDebug>
+#include <QProcess>
 #include "InputCEC.h"
 #include "settings/SettingsComponent.h"
 #include "power/PowerComponent.h"
@@ -196,6 +197,23 @@ void InputCECWorker::checkAdapter()
 void InputCECWorker::sendReceivedInput(const QString &source, const QString &keycode, InputBase::InputkeyState keyState)
 {
   emit receivedInput(source, keycode, keyState);
+
+  qInfo() << "Start jiggle.";
+  QProcess jiggle;
+  QStringList args;
+  jiggle.start("/home/kodi/bin/jiggle.sh", args);
+  if (!jiggle.waitForStarted())
+    qInfo() << "!waitForStarted";
+
+  jiggle.write("Qt rocks!");
+  jiggle.closeWriteChannel();
+
+  if (!jiggle.waitForFinished())
+    qInfo() << "!waitForFinished";
+
+  QByteArray result = jiggle.readAll();
+  qInfo() << "End jiggle.";
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
