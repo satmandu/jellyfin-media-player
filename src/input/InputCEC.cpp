@@ -201,7 +201,7 @@ void InputCECWorker::sendReceivedInput(const QString &source, const QString &key
   qInfo() << "Start jiggle.";
   QProcess jiggle;
   QStringList args;
-  jiggle.start("/home/kodi/bin/jiggle.sh", args);
+  jiggle.start("~/bin/jiggle.sh", args);
   if (!jiggle.waitForStarted())
     qInfo() << "!waitForStarted";
 
